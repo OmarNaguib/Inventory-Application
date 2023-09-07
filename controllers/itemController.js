@@ -9,14 +9,23 @@ exports.viewItem = asyncHandler(async (req, res, next) => {
   res.send("NOT YET");
 });
 
-exports.createItem = asyncHandler(async (req, res, next) => {
+exports.createItemGet = asyncHandler(async (req, res, next) => {
+  res.send("NOT YET");
+});
+exports.createItemPost = asyncHandler(async (req, res, next) => {
   res.send("NOT YET");
 });
 
-exports.deleteItem = asyncHandler(async (req, res, next) => {
+exports.deleteItemGet = asyncHandler(async (req, res, next) => {
+  res.send("NOT YET");
+});
+exports.deleteItemPost = asyncHandler(async (req, res, next) => {
   res.send("NOT YET");
 });
 
-exports.updateItem = asyncHandler(async (req, res, next) => {
+exports.updateItemGet = asyncHandler(async (req, res, next) => {
+  res.send("NOT YET");
+});
+exports.updateItemPost = asyncHandler(async (req, res, next) => {
   res.send("NOT YET");
 });

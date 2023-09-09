@@ -11,6 +11,12 @@
       cols="30"
       rows="10"
     ></textarea>
-    <button>Submit</button>
   </div>
+  <button>Submit</button>
+  <% if (errors) { %>
+  <ul>
+    <% errors.forEach(error => { %>
+    <li><%= error.msg%></li>
+    <% }) %> <% } %>
+  </ul>
 </form>

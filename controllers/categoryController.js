@@ -11,7 +11,11 @@ exports.viewCategory = asyncHandler(async (req, res, next) => {
 });
 
 exports.createCategoryGet = asyncHandler(async (req, res, next) => {
-  res.render("createCategory", { title: "Create Category" });
+  res.render("createCategory", {
+    title: "Create Category",
+    errors: undefined,
+    category: undefined,
+  });
 });
 
 const proccesCategoryName = body("name", "Category must have name")

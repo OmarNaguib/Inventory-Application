@@ -25,7 +25,6 @@ const proccesCategoryName = body("name", "Category must have name")
 const proccesCategoryDescription = body("description").escape();
 
 const createCategory = asyncHandler(async (req, res, next) => {
-  console.log("here");
   const category = Category({
     name: req.body.name,
     description: req.body.description,
@@ -38,14 +37,10 @@ const createCategory = asyncHandler(async (req, res, next) => {
       errors: errors.array(),
     });
   }
-  console.log("herettt");
-
   const categoryExists = await Category.findOne({ name: req.body.name }).exec();
   if (categoryExists) {
-    console.log(categoryExists, "ddjd");
     res.redirect(categoryExists.url);
   } else {
-    console.log("here");
     await category.save();
     res.redirect(category.url);
   }

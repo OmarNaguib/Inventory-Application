@@ -3,7 +3,7 @@ const { body, validationResult } = require("express-validator");
 const Category = require("../models/category");
 
 exports.viewAllCategories = asyncHandler(async (req, res, next) => {
-  const allCategories = await Category.find({}, "title description")
+  const allCategories = await Category.find({}, "name description")
     .sort({
       title: 1,
     })
@@ -15,7 +15,13 @@ exports.viewAllCategories = asyncHandler(async (req, res, next) => {
 });
 
 exports.viewCategory = asyncHandler(async (req, res, next) => {
-  res.send("NOT YET,view2");
+  const category = await Category.findById(req.params.id, "name description");
+  if (!category) {
+    const error = new Error("Category not found");
+    error.status = 404;
+    next(error);
+  }
+  res.render("category", { title: "Category details", category });
 });
 
 exports.createCategoryGet = asyncHandler(async (req, res, next) => {

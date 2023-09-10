@@ -25,7 +25,7 @@ exports.viewCategory = asyncHandler(async (req, res, next) => {
 });
 
 exports.createCategoryGet = asyncHandler(async (req, res, next) => {
-  res.render("categories/createCategory", {
+  res.render("categories/categoryForm", {
     title: "Create Category",
     errors: undefined,
     category: undefined,
@@ -45,7 +45,7 @@ const createCategory = asyncHandler(async (req, res, next) => {
   });
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    res.render("categories/createCategory", {
+    res.render("categories/categoryForm", {
       title: "Create Category",
       category,
       errors: errors.array(),
@@ -68,7 +68,6 @@ exports.createCategoryPost = [
 
 exports.deleteCategoryGet = asyncHandler(async (req, res, next) => {
   const category = await Category.findById(req.params.id).exec();
-  console.log(category);
   if (!category) res.redirect("/categories");
   res.render("categories/deleteCategory", {
     title: `delete ${category.name} category`,
@@ -81,7 +80,17 @@ exports.deleteCategoryPost = asyncHandler(async (req, res, next) => {
 });
 
 exports.updateCategoryGet = asyncHandler(async (req, res, next) => {
-  res.send("NOT YET,view6");
+  const category = await Category.findById(req.params.id).exec();
+  if (!category) {
+    const error = new Error("Category not found");
+    error.status = 404;
+    next(error);
+  }
+  res.render("categories/categoryForm", {
+    title: "Update category",
+    category,
+    errors: undefined,
+  });
 });
 exports.updateCategoryPost = asyncHandler(async (req, res, next) => {
   res.send("NOT YET,view7");

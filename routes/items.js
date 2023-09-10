@@ -5,10 +5,11 @@ const router = Router();
 const itemController = require("../controllers/itemController");
 
 router.get("/", itemController.viewAllItems);
-router.get("/:id", itemController.viewItem);
 
 router.get("/create", itemController.createItemGet);
 router.post("/create", itemController.createItemPost);
+
+router.get("/:id", itemController.viewItem);
 
 router.get("/:id/delete", itemController.deleteItemGet);
 router.post("/:id/delete", itemController.deleteItemPost);

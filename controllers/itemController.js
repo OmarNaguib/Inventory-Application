@@ -19,7 +19,11 @@ exports.viewItem = asyncHandler(async (req, res, next) => {
 });
 
 exports.createItemGet = asyncHandler(async (req, res, next) => {
-  res.send("NOT YET");
+  res.render("items/itemForm", {
+    title: "Create Item",
+    errors: undefined,
+    item: undefined,
+  });
 });
 exports.createItemPost = asyncHandler(async (req, res, next) => {
   res.send("NOT YET");

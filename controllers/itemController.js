@@ -15,7 +15,13 @@ exports.viewAllItems = asyncHandler(async (req, res, next) => {
 });
 
 exports.viewItem = asyncHandler(async (req, res, next) => {
-  res.send("NOT YET");
+  const item = await Item.findById(req.params.id, "name description");
+  if (!item) {
+    const error = new Error("Item not found");
+    error.status = 404;
+    next(error);
+  }
+  res.render("items/item", { title: "Item details", item });
 });
 
 exports.createItemGet = asyncHandler(async (req, res, next) => {

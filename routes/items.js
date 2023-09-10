@@ -4,16 +4,16 @@ const router = Router();
 
 const itemController = require("../controllers/itemController");
 
-router.get("/", itemController.viewAllCategories);
+router.get("/", itemController.viewAllItems);
 router.get("/:id", itemController.viewItem);
 
-router.get("/create".itemController.createItemGet);
-router.post("/create".itemController.createItemPost);
+router.get("/create", itemController.createItemGet);
+router.post("/create", itemController.createItemPost);
 
-router.get("/:id/delete".itemController.deleteItemGet);
-router.post("/:id/delete".itemController.deleteItemPost);
+router.get("/:id/delete", itemController.deleteItemGet);
+router.post("/:id/delete", itemController.deleteItemPost);
 
-router.get("/:id/update".itemController.updateItemGet);
-router.post("/:id/update".itemController.updateItemPost);
+router.get("/:id/update", itemController.updateItemGet);
+router.post("/:id/update", itemController.updateItemPost);
 
 module.exports = router;

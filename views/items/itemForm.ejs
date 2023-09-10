@@ -1,0 +1,33 @@
+<form action="" method="POST">
+  <div>
+    <label for="name">Name:</label>
+    <input type="text" name="name" id="name" value="<%=
+    item===undefined?"":item.name %>" />
+  </div>
+  <div>
+    <label for="description">Description:</label>
+    <textarea name="description" id="description" cols="30" rows="10">
+      <%= item===undefined?"":item.description %>
+    </textarea>
+  </div>
+  <!-- TODO: add select element for categories -->
+  <div>
+    <label for="price">Price:</label>
+    <input type="number" name="price" id="name" value="<%=
+    item===undefined?"":item.price %>" />
+  </div>
+  <div>
+    <div>
+      <label for="name">Number in stock:</label>
+      <input type="number" name="number" id="name" value="<%=
+      item===undefined?"":item.number %>" />
+    </div>
+    <div>
+      <button>Submit</button>
+      <% if (errors) { %>
+      <ul>
+        <% errors.forEach(error => { %>
+        <li><%= error.msg%></li>
+        <% }) %> <% } %>
+      </ul>
+</form>

@@ -67,10 +67,17 @@ exports.createCategoryPost = [
 ];
 
 exports.deleteCategoryGet = asyncHandler(async (req, res, next) => {
-  res.send("NOT YET,view4");
+  const category = await Category.findById(req.params.id).exec();
+  console.log(category);
+  if (!category) res.redirect("/categories");
+  res.render("categories/deleteCategory", {
+    title: `delete ${category.name} category`,
+    category,
+  });
 });
 exports.deleteCategoryPost = asyncHandler(async (req, res, next) => {
-  res.send("NOT YET,view5");
+  await Category.findByIdAndRemove(req.body.id);
+  res.redirect("/categories");
 });
 
 exports.updateCategoryGet = asyncHandler(async (req, res, next) => {

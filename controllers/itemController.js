@@ -25,9 +25,56 @@ exports.createItemGet = asyncHandler(async (req, res, next) => {
     item: undefined,
   });
 });
-exports.createItemPost = asyncHandler(async (req, res, next) => {
-  res.send("NOT YET");
+
+const proccesItemName = body(
+  "name",
+  "Item must have name (at least 3 characters)"
+)
+  .trim()
+  .isLength({ min: 3 })
+  .escape();
+// TODO: procces category info
+const proccesItemDescription = body("description").escape();
+const proccesItemPrice = body("price", "Price must be a number")
+  .isNumeric()
+  .escape();
+const proccesItemNumber = body("number", "Price must be a number")
+  .isNumeric()
+  .escape();
+
+const createItem = asyncHandler(async (req, res, next) => {
+  console.log("here");
+  const item = Item({
+    name: req.body.name,
+    description: req.body.description,
+    price: req.body.price,
+    number: req.body.number,
+  });
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.render("items/itemForm", {
+      title: "Create Item",
+      item,
+      errors: errors.array(),
+    });
+  }
+  const itemExists = await Item.findOne({ name: req.body.name }).exec();
+  if (itemExists) {
+    res.redirect(itemExists.url);
+  } else {
+    console.log("here");
+    await item.save();
+    res.redirect(item.url);
+  }
 });
+
+exports.createItemPost = [
+  proccesItemName,
+  proccesItemDescription,
+  proccesItemPrice,
+  proccesItemNumber,
+  createItem,
+];
 
 exports.deleteItemGet = asyncHandler(async (req, res, next) => {
   res.send("NOT YET");

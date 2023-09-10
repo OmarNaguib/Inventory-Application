@@ -1,0 +1,12 @@
+<% if (categories.length!==0) { %>
+<ul>
+  <% categories.forEach(category => { %>
+  <li>
+    <h2><%= category.name %></h2>
+    <p><%= category.description %></p>
+  </li>
+  <% }) %>
+</ul>
+<% } else { %>
+<h2>There are no active categories at the moment</h2>
+<% } %>

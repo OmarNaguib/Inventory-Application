@@ -3,7 +3,15 @@ const { body, validationResult } = require("express-validator");
 const Category = require("../models/category");
 
 exports.viewAllCategories = asyncHandler(async (req, res, next) => {
-  res.send("NOT YET,view1");
+  const allCategories = await Category.find({}, "title description")
+    .sort({
+      title: 1,
+    })
+    .exec();
+  res.render("categories", {
+    title: "All Categories",
+    categories: allCategories,
+  });
 });
 
 exports.viewCategory = asyncHandler(async (req, res, next) => {

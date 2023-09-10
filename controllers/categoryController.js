@@ -92,6 +92,32 @@ exports.updateCategoryGet = asyncHandler(async (req, res, next) => {
     errors: undefined,
   });
 });
-exports.updateCategoryPost = asyncHandler(async (req, res, next) => {
-  res.send("NOT YET,view7");
+
+const updateCategory = asyncHandler(async (req, res, next) => {
+  const category = Category({
+    name: req.body.name,
+    description: req.body.description,
+    _id: req.params.id,
+  });
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.render("categories/categoryForm", {
+      title: "Create Category",
+      category,
+      errors: errors.array(),
+    });
+  }
+  const categoryExists = await Category.findOne({ name: req.body.name }).exec();
+  if (categoryExists) {
+    res.redirect(categoryExists.url);
+  } else {
+    await Category.findByIdAndUpdate(req.params.id, category, {});
+    res.redirect(category.url);
+  }
 });
+
+exports.updateCategoryPost = [
+  proccesCategoryName,
+  proccesCategoryDescription,
+  updateCategory,
+];

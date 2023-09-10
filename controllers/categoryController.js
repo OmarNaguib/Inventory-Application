@@ -8,7 +8,7 @@ exports.viewAllCategories = asyncHandler(async (req, res, next) => {
       title: 1,
     })
     .exec();
-  res.render("categories", {
+  res.render("categories/categories", {
     title: "All Categories",
     categories: allCategories,
   });
@@ -21,11 +21,11 @@ exports.viewCategory = asyncHandler(async (req, res, next) => {
     error.status = 404;
     next(error);
   }
-  res.render("category", { title: "Category details", category });
+  res.render("categories/category", { title: "Category details", category });
 });
 
 exports.createCategoryGet = asyncHandler(async (req, res, next) => {
-  res.render("createCategory", {
+  res.render("categories/createCategory", {
     title: "Create Category",
     errors: undefined,
     category: undefined,
@@ -45,7 +45,7 @@ const createCategory = asyncHandler(async (req, res, next) => {
   });
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    res.render("createCategory", {
+    res.render("categories/createCategory", {
       title: "Create Category",
       category,
       errors: errors.array(),

@@ -15,7 +15,7 @@ exports.viewAllItems = asyncHandler(async (req, res, next) => {
 });
 
 exports.viewItem = asyncHandler(async (req, res, next) => {
-  const item = await Item.findById(req.params.id, "name description");
+  const item = await Item.findById(req.params.id);
   if (!item) {
     const error = new Error("Item not found");
     error.status = 404;
@@ -96,8 +96,45 @@ exports.deleteItemPost = asyncHandler(async (req, res, next) => {
 });
 
 exports.updateItemGet = asyncHandler(async (req, res, next) => {
-  res.send("NOT YET");
+  const item = await Item.findById(req.params.id).exec();
+  if (!item) {
+    const error = new Error("Item not found");
+    error.status = 404;
+    next(error);
+  }
+  res.render("items/itemForm", {
+    title: "Update item",
+    item,
+    errors: undefined,
+  });
 });
-exports.updateItemPost = asyncHandler(async (req, res, next) => {
-  res.send("NOT YET");
+
+const updateItem = asyncHandler(async (req, res, next) => {
+  const item = Item({
+    name: req.body.name,
+    description: req.body.description,
+    price: req.body.price,
+    number: req.body.number,
+    _id: req.params.id,
+  });
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    res.render("items/itemForm", {
+      title: "Create Item",
+      item,
+      errors: errors.array(),
+    });
+  }
+
+  await Item.findByIdAndUpdate(req.params.id, item, {});
+  res.redirect(item.url);
 });
+
+exports.updateItemPost = [
+  proccesItemName,
+  proccesItemDescription,
+  proccesItemPrice,
+  proccesItemNumber,
+  updateItem,
+];

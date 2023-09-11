@@ -107,13 +107,9 @@ const updateCategory = asyncHandler(async (req, res, next) => {
       errors: errors.array(),
     });
   }
-  const categoryExists = await Category.findOne({ name: req.body.name }).exec();
-  if (categoryExists) {
-    res.redirect(categoryExists.url);
-  } else {
-    await Category.findByIdAndUpdate(req.params.id, category, {});
-    res.redirect(category.url);
-  }
+
+  await Category.findByIdAndUpdate(req.params.id, category, {});
+  res.redirect(category.url);
 });
 
 exports.updateCategoryPost = [

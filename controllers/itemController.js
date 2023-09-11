@@ -5,6 +5,7 @@ const Category = require("../models/category");
 
 exports.viewAllItems = asyncHandler(async (req, res, next) => {
   const allItems = await Item.find({})
+    .populate("category")
     .sort({
       title: 1,
     })
@@ -16,7 +17,7 @@ exports.viewAllItems = asyncHandler(async (req, res, next) => {
 });
 
 exports.viewItem = asyncHandler(async (req, res, next) => {
-  const item = await Item.findById(req.params.id);
+  const item = await Item.findById(req.params.id).populate("category");
   if (!item) {
     const error = new Error("Item not found");
     error.status = 404;
@@ -101,6 +102,7 @@ exports.deleteItemPost = asyncHandler(async (req, res, next) => {
 
 exports.updateItemGet = asyncHandler(async (req, res, next) => {
   const item = await Item.findById(req.params.id).exec();
+  const categories = await Category.find().exec();
   if (!item) {
     const error = new Error("Item not found");
     error.status = 404;
@@ -110,12 +112,14 @@ exports.updateItemGet = asyncHandler(async (req, res, next) => {
     title: "Update item",
     item,
     errors: undefined,
+    categories,
   });
 });
 
 const updateItem = asyncHandler(async (req, res, next) => {
   const item = Item({
     name: req.body.name,
+    category: req.body.category,
     description: req.body.description,
     price: req.body.price,
     number: req.body.number,

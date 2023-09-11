@@ -1,9 +1,9 @@
 const { Schema, model } = require("mongoose");
-// Todo: make category required
+
 const ItemSchema = Schema({
   name: { type: String, required: true },
   description: { type: String, required: true },
-  category: { type: String },
+  category: { type: String, ref: "Categories", required: true },
   price: { type: Number, required: true },
   number: { type: Number, required: true },
 });

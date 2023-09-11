@@ -64,9 +64,11 @@ const createItem = asyncHandler(async (req, res, next) => {
   });
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    const categories = await Category.find().exec();
     res.render("items/itemForm", {
       title: "Create Item",
       item,
+      categories,
       errors: errors.array(),
     });
   }
@@ -82,6 +84,7 @@ const createItem = asyncHandler(async (req, res, next) => {
 
 exports.createItemPost = [
   proccesItemName,
+  proccesItemCategory,
   proccesItemDescription,
   proccesItemPrice,
   proccesItemNumber,
@@ -144,6 +147,7 @@ const updateItem = asyncHandler(async (req, res, next) => {
 
 exports.updateItemPost = [
   proccesItemName,
+  proccesItemCategory,
   proccesItemDescription,
   proccesItemPrice,
   proccesItemNumber,

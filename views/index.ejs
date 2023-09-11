@@ -1,0 +1,24 @@
+<h1>Categories: </h1>
+<ul>
+  <% itemsByCategoryName.forEach(category => { %>
+  <li>
+    <a href="<%= category.items[0].category.url %>">
+      <h1><%= category.items[0].category.name %></h1>
+    </a>
+    <h2>Items:</h2>
+    <ul>
+      <% category.items.forEach(item => { %>
+      <li>
+        <a href="<%= item.url %>">
+          <h2><%= item.name %></h2>
+        </a>
+        <p>Description: <%= item.description %></p>
+        <h3>Price: <%= item.price %>$</h3>
+        <p>Number in stock: <%= item.number %></p>
+      </li>
+      <% }) %>
+    </ul>
+  </li>
+
+  <% }) %>
+</ul>

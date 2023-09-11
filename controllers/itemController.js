@@ -54,7 +54,6 @@ const proccesItemNumber = body("number", "Price must be a number")
   .escape();
 
 const createItem = asyncHandler(async (req, res, next) => {
-  console.log("here");
   const item = Item({
     name: req.body.name,
     category: req.body.category,
@@ -76,7 +75,6 @@ const createItem = asyncHandler(async (req, res, next) => {
   if (itemExists) {
     res.redirect(itemExists.url);
   } else {
-    console.log("here");
     await item.save();
     res.redirect(item.url);
   }

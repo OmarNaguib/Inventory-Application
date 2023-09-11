@@ -83,10 +83,16 @@ exports.createItemPost = [
 ];
 
 exports.deleteItemGet = asyncHandler(async (req, res, next) => {
-  res.send("NOT YET");
+  const item = await Item.findById(req.params.id).exec();
+  if (!item) res.redirect("/items");
+  res.render("items/deleteItem", {
+    title: `delete ${item.name} item`,
+    item,
+  });
 });
 exports.deleteItemPost = asyncHandler(async (req, res, next) => {
-  res.send("NOT YET");
+  await Item.findByIdAndRemove(req.body.id);
+  res.redirect("/items");
 });
 
 exports.updateItemGet = asyncHandler(async (req, res, next) => {

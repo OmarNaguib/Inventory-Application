@@ -1,5 +1,15 @@
-<h2><%= category.name %></h2>
-<p><%= category.description %></p>
-<a href="<%= category.url %>/update">Update Category</a>
-<br />
-<a href="<%= category.url %>/delete">Delete Category</a>
+<h1><%= category.name %></h2>
+  <p><%= category.description %></p>
+  <h2>items: </h2>
+  <ul>
+    <% categoryItems.forEach(item => { %>
+    <li>
+      <a href="<%= item.url %>">
+        <h2><%= item.name %></h3>
+      </a>
+    </li>
+    <% }) %>
+  </ul>
+  <a href="<%= category.url %>/update">Update Category</a>
+  <br />
+  <a href="<%= category.url %>/delete">Delete Category</a>

@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 const Category = require("../models/category");
+const Item = require("../models/item");
 
 exports.viewAllCategories = asyncHandler(async (req, res, next) => {
   const allCategories = await Category.find({}, "name description")
@@ -16,12 +17,22 @@ exports.viewAllCategories = asyncHandler(async (req, res, next) => {
 
 exports.viewCategory = asyncHandler(async (req, res, next) => {
   const category = await Category.findById(req.params.id, "name description");
+  const categoryItems = await Item.find({ category: req.params.id })
+    .populate("category")
+    .sort({
+      title: 1,
+    })
+    .exec();
   if (!category) {
     const error = new Error("Category not found");
     error.status = 404;
     next(error);
   }
-  res.render("categories/category", { title: "Category details", category });
+  res.render("categories/category", {
+    title: "Category details",
+    category,
+    categoryItems,
+  });
 });
 
 exports.createCategoryGet = asyncHandler(async (req, res, next) => {

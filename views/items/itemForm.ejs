@@ -15,7 +15,13 @@
     <label for="category">Category: </label>
     <select name="category" id="">
       <% categories.forEach(category => { %>
+      <% if (item) { %>
+      <option value="<%= category._id %>" <%= category._id.toString()===item.category._id.toString()?"selected":""; %>>
+        <%= category.name %>
+      </option>
+      <% }else { %>
       <option value="<%= category._id %>"><%= category.name %></option>
+      <% } %>
       <% }) %>
     </select>
   </div>

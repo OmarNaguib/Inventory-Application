@@ -57,6 +57,7 @@ const createItem = asyncHandler(async (req, res, next) => {
   console.log("here");
   const item = Item({
     name: req.body.name,
+    category: req.body.category,
     description: req.body.description,
     price: req.body.price,
     number: req.body.number,
@@ -101,7 +102,7 @@ exports.deleteItemPost = asyncHandler(async (req, res, next) => {
 });
 
 exports.updateItemGet = asyncHandler(async (req, res, next) => {
-  const item = await Item.findById(req.params.id).exec();
+  const item = await Item.findById(req.params.id).populate("category").exec();
   const categories = await Category.find().exec();
   if (!item) {
     const error = new Error("Item not found");
@@ -128,9 +129,11 @@ const updateItem = asyncHandler(async (req, res, next) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
+    const categories = await Category.find().exec();
     res.render("items/itemForm", {
       title: "Create Item",
       item,
+      categories,
       errors: errors.array(),
     });
   }

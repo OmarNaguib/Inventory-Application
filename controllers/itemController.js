@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 const Item = require("../models/item");
+const Category = require("../models/category");
 
 exports.viewAllItems = asyncHandler(async (req, res, next) => {
   const allItems = await Item.find({})
@@ -25,10 +26,12 @@ exports.viewItem = asyncHandler(async (req, res, next) => {
 });
 
 exports.createItemGet = asyncHandler(async (req, res, next) => {
+  const categories = await Category.find().exec();
   res.render("items/itemForm", {
     title: "Create Item",
     errors: undefined,
     item: undefined,
+    categories,
   });
 });
 
@@ -41,6 +44,7 @@ const proccesItemName = body(
   .escape();
 // TODO: procces category info
 const proccesItemDescription = body("description").escape();
+const proccesItemCategory = body("description").escape();
 const proccesItemPrice = body("price", "Price must be a number")
   .isNumeric()
   .escape();

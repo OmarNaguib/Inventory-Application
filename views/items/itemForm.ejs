@@ -12,6 +12,14 @@
   </div>
   <!-- TODO: add select element for categories -->
   <div>
+    <label for="category">Category: </label>
+    <select name="category" id="">
+      <% categories.forEach(category => { %>
+      <option value="<%= category._id %>"><%= category.name %></option>
+      <% }) %>
+    </select>
+  </div>
+  <div>
     <label for="price">Price:</label>
     <input type="number" name="price" id="name" value="<%=
     item===undefined?"":item.price %>" />

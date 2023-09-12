@@ -11,6 +11,10 @@ const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const categoriesRouter = require("./routes/categories");
 const itemsRouter = require("./routes/items");
+
+// custom middleware
+const checkPassword = require("./middleware/checkPassword");
+
 // setup mongoose connection
 mongoose.set("strictQuery", false);
 const mongoDB = process.env.MONGO_URL;
@@ -34,6 +38,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+app.post("*", checkPassword);
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/categories", categoriesRouter);

@@ -1,10 +1,8 @@
-const passwordError = new Error("unauthoried access: password incorrect");
-passwordError.status = 401;
-passwordError.message = "unauthoried access: password incorrect";
+const asyncHandler = require("express-async-handler");
+const { body, validationResult } = require("express-validator");
 
-const checkPassword = (req, res, next) => {
-  if (req.body.password !== process.env.PASSWORD) next(passwordError);
-  else next();
-};
+const checkPassword = body("password", "Incorrect password")
+  .equals(process.env.PASSWORD)
+  .escape();
 
 module.exports = checkPassword;

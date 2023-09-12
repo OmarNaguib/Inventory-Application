@@ -1,5 +1,12 @@
 <form action="" method="post">
   <input type="hidden" name="id" required value="<%= category.id %>" />
+
+  <div>
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="name" required />
+  </div>
+  <br>
+
   <h2>Do you really want to delete the <%= category.name %> Category?</h2>
   <button>Delete</button>
 </form>

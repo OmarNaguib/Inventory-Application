@@ -1,5 +1,10 @@
 <form action="" method="post">
   <input type="hidden" name="id" required value="<%= item.id %>" />
+  <div>
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="name" required />
+  </div>
+  <br>
   <h2>Do you really want to delete the <%= item.name %> Item?</h2>
   <button>Delete</button>
 </form>

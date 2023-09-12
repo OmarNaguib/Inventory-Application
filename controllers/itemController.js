@@ -1,7 +1,20 @@
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
+const multer = require("multer");
 const Item = require("../models/item");
 const Category = require("../models/category");
+
+// Setup multer
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, `public/images`);
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage });
 
 exports.viewAllItems = asyncHandler(async (req, res, next) => {
   const allItems = await Item.find({})
@@ -151,4 +164,15 @@ exports.updateItemPost = [
   proccesItemPrice,
   proccesItemNumber,
   updateItem,
+];
+
+exports.trialGet = asyncHandler(async (req, res, next) => {
+  res.render("trial", { title: "image trial" });
+});
+
+exports.trialPost = [
+  upload.single("image"),
+  asyncHandler(async (req, res, next) => {
+    res.render("trial", { title: "image trial" });
+  }),
 ];

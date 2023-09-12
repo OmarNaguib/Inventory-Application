@@ -43,12 +43,12 @@
       <input type="password" name="password" id="name" />
     </div>
     <br>
-    <div>
-      <button>Submit</button>
-      <% if (errors) { %>
-      <ul>
-        <% errors.forEach(error => { %>
-        <li><%= error.msg%></li>
-        <% }) %> <% } %>
-      </ul>
+    <input type="file" name="item_image" />
+    <button>Submit</button>
+    <% if (errors) { %>
+    <ul>
+      <% errors.forEach(error => { %>
+      <li><%= error.msg%></li>
+      <% }) %> <% } %>
+    </ul>
 </form>

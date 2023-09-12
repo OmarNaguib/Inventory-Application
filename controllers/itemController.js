@@ -54,13 +54,14 @@ const proccesItemNumber = body("number", "Price must be a number")
   .escape();
 
 const createItem = asyncHandler(async (req, res, next) => {
-  const item = Item({
+  const item = await Item({
     name: req.body.name,
     category: req.body.category,
     description: req.body.description,
     price: req.body.price,
     number: req.body.number,
-  });
+  }).populate("category");
+  console.log(item);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const categories = await Category.find().exec();

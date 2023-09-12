@@ -6,6 +6,17 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const expressLayouts = require("express-ejs-layouts");
 require("dotenv").config();
+const multer = require("multer");
+
+// setup image middleware
+const storage = multer.diskStorage({
+  destination(req, file, callback) {
+    callback(null, "/puplic/images");
+  },
+  filename(req, file, callback) {
+    callback(null, file.fieldname);
+  },
+});
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
@@ -38,7 +49,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.post("*", checkPassword);
+// app.post("*", checkPassword);
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/categories", categoriesRouter);

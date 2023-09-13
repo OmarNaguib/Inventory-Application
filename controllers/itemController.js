@@ -167,14 +167,3 @@ exports.updateItemPost = [
   proccesItemNumber,
   updateItem,
 ];
-
-exports.trialGet = asyncHandler(async (req, res, next) => {
-  res.render("trial", { title: "image trial" });
-});
-
-exports.trialPost = [
-  upload.single("image"),
-  asyncHandler(async (req, res, next) => {
-    res.render("trial", { title: "image trial" });
-  }),
-];

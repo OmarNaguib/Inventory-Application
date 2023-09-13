@@ -30,9 +30,7 @@ exports.viewAllItems = asyncHandler(async (req, res, next) => {
 });
 
 exports.viewItem = asyncHandler(async (req, res, next) => {
-  console.log();
   const item = await Item.findById(req.params.id).populate("category");
-  console.log(item);
   if (!item) {
     const error = new Error("Item not found");
     error.status = 404;
@@ -58,11 +56,7 @@ const proccesItemName = body(
   .trim()
   .isLength({ min: 3 })
   .escape();
-// TODO: procces category info
-const conlog = asyncHandler(async (req, res, next) => {
-  console.log("itemImage", req.body);
-  next();
-});
+
 const proccesItemDescription = body("description").escape();
 const proccesItemCategory = body("description").escape();
 const proccesItemPrice = body("price", "Price must be a number")
@@ -73,7 +67,6 @@ const proccesItemNumber = body("number", "Price must be a number")
   .escape();
 
 const createItem = asyncHandler(async (req, res, next) => {
-  console.log("path", req.file.path, req.file);
   const item = await Item({
     name: req.body.name,
     category: req.body.category,

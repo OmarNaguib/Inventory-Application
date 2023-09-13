@@ -9,9 +9,6 @@ router.get("/", itemController.viewAllItems);
 router.get("/create", itemController.createItemGet);
 router.post("/create", itemController.createItemPost);
 
-router.get("/trial", itemController.trialGet);
-router.post("/trial", itemController.trialPost);
-
 router.get("/:id", itemController.viewItem);
 
 router.get("/:id/delete", itemController.deleteItemGet);

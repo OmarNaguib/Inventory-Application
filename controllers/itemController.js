@@ -149,21 +149,24 @@ const updateItem = asyncHandler(async (req, res, next) => {
     price: req.body.price,
     number: req.body.number,
     _id: req.params.id,
-  }).populate("category");
+  });
+  const itemPopulated = item.populate("category");
   const errors = validationResult(req);
-  console.log(item.category);
+  console.log(req.params.id);
 
   if (!errors.isEmpty()) {
     const categories = await Category.find().exec();
     res.render("items/itemForm", {
       title: "Create Item",
-      item,
+      item: itemPopulated,
       categories,
       errors: errors.array(),
     });
   }
 
-  await Item.findByIdAndUpdate(req.params.id, item, {});
+  const result = await Item.findByIdAndUpdate(req.params.id, item, {}).exec();
+  console.log({ result });
+
   res.redirect(`/items/${req.params.id}`);
 });
 

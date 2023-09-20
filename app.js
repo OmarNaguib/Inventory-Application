@@ -18,6 +18,8 @@ const storage = multer.diskStorage({
   },
 });
 
+const upload = multer({ storage });
+
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const categoriesRouter = require("./routes/categories");
@@ -45,11 +47,11 @@ app.set("view engine", "ejs");
 
 app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.post("*", checkPassword);
+app.post("/categories*", checkPassword);
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/categories", categoriesRouter);

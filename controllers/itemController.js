@@ -4,6 +4,8 @@ const multer = require("multer");
 const Item = require("../models/item");
 const Category = require("../models/category");
 
+const checkPassword = require("../middleware/checkPassword");
+
 // Setup multer
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -73,11 +75,12 @@ const createItem = asyncHandler(async (req, res, next) => {
     description: req.body.description,
     price: req.body.price,
     number: req.body.number,
-    image: req.file.filename,
+    image: req.file ? req.file.filename : "",
   }).populate("category");
+  console.log(req.body.password === process.env.PASSWORD);
   const errors = validationResult(req);
-  console.log(req.body.password);
   if (!errors.isEmpty()) {
+    console.log(errors.array());
     const categories = await Category.find().exec();
     return res.render("items/itemForm", {
       title: "Create Item",
@@ -96,6 +99,7 @@ const createItem = asyncHandler(async (req, res, next) => {
 
 exports.createItemPost = [
   upload.single("itemImage"),
+  checkPassword,
   proccesItemName,
   proccesItemCategory,
   proccesItemDescription,
@@ -113,10 +117,13 @@ exports.deleteItemGet = asyncHandler(async (req, res, next) => {
     item,
   });
 });
-exports.deleteItemPost = asyncHandler(async (req, res, next) => {
-  await Item.findByIdAndRemove(req.body.id);
-  res.redirect("/items");
-});
+exports.deleteItemPost = [
+  checkPassword,
+  asyncHandler(async (req, res, next) => {
+    await Item.findByIdAndRemove(req.body.id);
+    res.redirect("/items");
+  }),
+];
 
 exports.updateItemGet = asyncHandler(async (req, res, next) => {
   const item = await Item.findById(req.params.id).populate("category").exec();
@@ -142,8 +149,9 @@ const updateItem = asyncHandler(async (req, res, next) => {
     price: req.body.price,
     number: req.body.number,
     _id: req.params.id,
-  });
+  }).populate("category");
   const errors = validationResult(req);
+  console.log(item.category);
 
   if (!errors.isEmpty()) {
     const categories = await Category.find().exec();
@@ -156,10 +164,12 @@ const updateItem = asyncHandler(async (req, res, next) => {
   }
 
   await Item.findByIdAndUpdate(req.params.id, item, {});
-  res.redirect(item.url);
+  res.redirect(`/items/${req.params.id}`);
 });
 
 exports.updateItemPost = [
+  upload.single("itemImage"),
+  checkPassword,
   proccesItemName,
   proccesItemCategory,
   proccesItemDescription,

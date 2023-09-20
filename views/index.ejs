@@ -9,7 +9,7 @@
     <ul>
       <% category.items.forEach(item => { %>
       <li>
-        <a href="<%= item.url %>">
+        <a href="/items/<%= item._id %>">
           <h2><%= item.name %></h2>
         </a>
         <p>Description: <%= item.description %></p>

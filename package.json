@@ -28,5 +28,8 @@
     "eslint-plugin-import": "^2.27.5",
     "nodemon": "^3.0.1",
     "prettier": "^2.8.8"
+  },
+  "engines": {
+    "node": ">=14.20.1"
   }
 }

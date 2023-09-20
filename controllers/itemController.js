@@ -76,9 +76,10 @@ const createItem = asyncHandler(async (req, res, next) => {
     image: req.file.filename,
   }).populate("category");
   const errors = validationResult(req);
+  console.log(req.body.password);
   if (!errors.isEmpty()) {
     const categories = await Category.find().exec();
-    res.render("items/itemForm", {
+    return res.render("items/itemForm", {
       title: "Create Item",
       item,
       categories,
@@ -87,11 +88,10 @@ const createItem = asyncHandler(async (req, res, next) => {
   }
   const itemExists = await Item.findOne({ name: req.body.name }).exec();
   if (itemExists) {
-    res.redirect(itemExists.url);
-  } else {
-    await item.save();
-    res.redirect(item.url);
+    return res.redirect(itemExists.url);
   }
+  await item.save();
+  return res.redirect(item.url);
 });
 
 exports.createItemPost = [

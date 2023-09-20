@@ -77,10 +77,8 @@ const createItem = asyncHandler(async (req, res, next) => {
     number: req.body.number,
     image: req.file ? req.file.filename : "",
   }).populate("category");
-  console.log(req.body.password === process.env.PASSWORD);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    console.log(errors.array());
     const categories = await Category.find().exec();
     return res.render("items/itemForm", {
       title: "Create Item",
@@ -152,7 +150,6 @@ const updateItem = asyncHandler(async (req, res, next) => {
   });
   const itemPopulated = item.populate("category");
   const errors = validationResult(req);
-  console.log(req.params.id);
 
   if (!errors.isEmpty()) {
     const categories = await Category.find().exec();
@@ -165,7 +162,6 @@ const updateItem = asyncHandler(async (req, res, next) => {
   }
 
   const result = await Item.findByIdAndUpdate(req.params.id, item, {}).exec();
-  console.log({ result });
 
   res.redirect(`/items/${req.params.id}`);
 });
